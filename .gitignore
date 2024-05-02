@@ -1,0 +1,6 @@
+src/__pycache__
+src/.ssl
+src/wavs
+.env
+env/
+wavs/*

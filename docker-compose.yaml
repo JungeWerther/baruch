@@ -1,0 +1,41 @@
+services:
+  listener:
+    container_name: listener
+    volumes:
+      - ./src:/src
+      - /usr/share/alsa:/usr/share/alsa
+      - /etc/asound.conf:/etc/asound.conf
+    group_add:
+      - 29
+    ports: 
+      - "8866:8866"
+      - "8867:8867"
+    command: python purevad.py  
+    devices:
+      - /dev/snd:/dev/snd
+    # command: arecord -l
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - SSLPASS=${SSLPASS}
+      - ALSA_CARD=2
+  minibrain:
+    container_name: minibrain
+    volumes:
+      - ./src:/src
+      - /usr/share/alsa:/usr/share/alsa
+      - /etc/asound.conf:/etc/asound.conf
+    group_add:
+      - 29
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: python minibrain.py
+    devices:
+      - /dev/snd:/dev/snd
+    environment:
+      - SSLPASS=${SSLPASS}
+      - ALSA_CARD=2
+    network_mode: "host"
+
